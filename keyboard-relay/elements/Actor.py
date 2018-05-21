@@ -1,4 +1,4 @@
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 
 class Actor:
@@ -9,10 +9,14 @@ class Actor:
     _status = OFF
     _name = None
     _pinNumber = None
+    _pin = None
 
     def __init__(self,name,pinNumber):
         self._name = name
-        self._pin = pinNumber
+        self._pinNumber = pinNumber
+        GPIO.setup(self._pinNumber, GPIO.OUT)
+        self.off()
+        self._handleOff()
 
     def on(self):
         self._setStatus(Actor.ON)
@@ -47,10 +51,12 @@ class Actor:
     def _handleOn(self):
         test = 1
         #print("{0} -> switched on".format(self))
+        GPIO.output(self._pinNumber, GPIO.LOW)
 
     def _handleOff(self):
         test = 2
         #print("{0} -> switched off".format(self))
+        GPIO.output(self._pinNumber, GPIO.HIGH)
 
     def __str__(self):
         return '{0} (p: {1}) -> {2}'.format(self._name, self._pinNumber, self._status)

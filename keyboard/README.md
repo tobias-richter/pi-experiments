@@ -1,3 +1,3 @@
 # Requirements
 
-    pip install pynput curses-menu
+    pip install pynput curses-menu RPi.GPIO

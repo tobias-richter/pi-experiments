@@ -1,5 +1,8 @@
 import curses
 from elements import Actor
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BCM)
 
 stdscr = curses.initscr()
 curses.noecho()
@@ -10,14 +13,14 @@ stdscr.addstr(0, 0, "Keyboard controlled relais (hit 'q' to exit)",
               curses.A_REVERSE)
 stdscr.refresh()
 
-relais1 = Actor('relay1', 1)
-relais2 = Actor('relay2', 1)
-relais3 = Actor('relay3', 1)
-relais4 = Actor('relay4', 1)
-relais5 = Actor('relay5', 1)
-relais6 = Actor('relay6', 1)
-relais7 = Actor('relay7', 1)
-relais8 = Actor('relay8', 1)
+relais1 = Actor('relay1', 17)
+relais2 = Actor('relay2', 27)
+relais3 = Actor('relay3', 22)
+relais4 = Actor('relay4', 10)
+relais5 = Actor('relay5', 9)
+relais6 = Actor('relay6', 5)
+relais7 = Actor('relay7', 6)
+relais8 = Actor('relay8', 13)
 
 relais = [
     relais1,
@@ -48,21 +51,21 @@ def main(stdscr):
         # get keyboard input, returns -1 if none available
         key = stdscr.getch()
         if (key == ord('1')):
-            relais1.toggle()
+            relais[0].toggle()
         if (key == ord('2')):
-            relais2.toggle()
+            relais[1].toggle()
         if (key == ord('3')):
-            relais3.toggle()
+            relais[2].toggle()
         if (key == ord('4')):
-            relais4.toggle()
+            relais[3].toggle()
         if (key == ord('5')):
-            relais5.toggle()
+            relais[4].toggle()
         if (key == ord('6')):
-            relais6.toggle()
+            relais[5].toggle()
         if (key == ord('7')):
-            relais7.toggle()
+            relais[6].toggle()
         if (key == ord('8')):
-            relais8.toggle()
+            relais[7].toggle()
         if key == ord('q'):
             break
         #if c != -1:
@@ -74,3 +77,10 @@ def main(stdscr):
 
 if __name__ == '__main__':
     curses.wrapper(main)
+
+
+for singleRelais in relais:
+    singleRelais.off()
+
+GPIO.cleanup()
+print("exit")
